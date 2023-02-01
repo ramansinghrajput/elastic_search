@@ -1,0 +1,10 @@
+---
+# tasks file for ES-jen
+
+    - name: installing Ubuntu
+      include_tasks: OS-debian.yml
+      when: ansible_os_family == "Debian"
+      
+    - name: installing RedHat
+      include_tasks: OS-rhel.yml
+      when: ansible_os_family == "RedHat"

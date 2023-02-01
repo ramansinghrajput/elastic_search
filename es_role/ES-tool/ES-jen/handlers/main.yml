@@ -1,0 +1,11 @@
+---
+# handlers file for ES-jen
+
+    - name: daemon_reload
+      command: /bin/systemctl daemon-reload
+      command: /bin/systemctl enable elasticsearch.service
+
+    - name: Start_ES
+      service:
+        name: elasticsearch
+        state: started

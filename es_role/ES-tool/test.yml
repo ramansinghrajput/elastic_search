@@ -1,0 +1,9 @@
+---
+- name: ES installation
+  hosts: all
+  vars:
+    ansible_ssh_user: ubuntu
+    ansible_ssh_private_key_file: /home/avi/Desktop/keys/Ohio.pem
+  become: yes
+  roles:
+    - ES-jen

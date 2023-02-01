@@ -1,0 +1,20 @@
+---
+# defaults file for ES-jen
+
+private_key_file: /home/avi/Desktop/keys/Ohio.pem
+
+version: 7
+key_url: https://artifacts.elastic.co/GPG-KEY-elasticsearch
+rhel_key_url: https://artifacts.elastic.co/GPG-KEY-elasticsearch
+
+esIP: "{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}"
+
+master_nodes: >-
+  ["{{ groups['esm']
+  | map('extract', hostvars, ['ansible_default_ipv4', 'address'])
+  | join('", "') }}"]
+
+discovery_nodes: >-
+  ["{{ groups['all']
+  | map('extract', hostvars, ['ansible_default_ipv4', 'address'])
+  | join('", "') }}"]

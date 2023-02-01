@@ -1,0 +1,16 @@
+plugin: aws_ec2
+regions:
+  - us-west-2
+
+    filters:
+  tag:Name:
+    - esm
+    - es
+    
+  instance-state-name : running
+
+groups:
+  esm: '"esm" in tags.Name'
+  es: '"es" in tags.Name'
+
+

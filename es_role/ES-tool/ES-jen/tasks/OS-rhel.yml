@@ -1,0 +1,52 @@
+---
+- name: Installing JDk
+  yum: 
+    name: java-11-openjdk
+    update_cache: yes
+  
+- name: Import a key from a url
+  rpm_key:
+    state: present
+    key: "{{ rhel_key_url }}"
+
+- name: Copying elastic repository
+  template: 
+    src: repo.j2
+    dest: /etc/yum.repos.d/elasticsearch.repo
+    
+- name: Install the specific version of elasticsearch from the elasticsearch repo
+  yum:
+    name: elasticsearch-{{ version }}
+    enablerepo: elasticsearch
+    state: present
+    allow_downgrade: yes
+    update_cache: yes
+    
+- name: Insert network.host
+  lineinfile:
+    path: /etc/elasticsearch/elasticsearch.yml
+    regexp: '#network.host'
+    line: 'network.host: 0.0.0.0'
+        
+- name: Insert http port
+  lineinfile:
+    path: /etc/elasticsearch/elasticsearch.yml
+    regexp: '#http.port'
+    line: 'http.port: 9200'
+
+- name: Insert http port
+  lineinfile:
+    path: /etc/elasticsearch/elasticsearch.yml
+    regexp: '#discovery.seed_hosts'
+    line: 'discovery.seed_hosts: [127.0.0.1]'
+
+- name: Insert/Update "security" configuration
+  blockinfile:
+    path: /etc/elasticsearch/elasticsearch.yml
+    block: |
+      xpack.security.transport.ssl.enabled: false
+      xpack.security.enabled: false
+
+  notify:
+    - daemon_reload
+    - Start_elasticsearch

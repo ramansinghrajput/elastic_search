@@ -1,0 +1,14 @@
+---
+# vars file for ES-jen
+
+version: 8
+
+http_port: 9200
+
+cluster_port: 9300
+
+cluster_name: "cluster"
+
+data_path: /var/lib/elasticsearch
+
+log_path: /var/log/elasticsearch
